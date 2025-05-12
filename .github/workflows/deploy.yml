@@ -1,0 +1,55 @@
+name: Build and Deploy Frontend & Backend
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set Docker to use Minikube daemon (PowerShell)
+      shell: pwsh
+      run: |
+        & minikube -p minikube docker-env | Invoke-Expression
+
+    - name: Build Backend Docker Image
+      shell: pwsh
+      run: |
+        docker build -t usaidafzal/purrfectmatch-backend:latest ./backend
+
+    - name: Build Frontend Docker Image
+      shell: pwsh
+      run: |
+        docker build -t usaidafzal/purrfectmatch-frontend:latest ./frontend
+
+    - name: Login to Docker Hub
+      shell: pwsh
+      run: |
+        docker login -u $env:DOCKER_USERNAME -p $env:DOCKER_PASSWORD
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Push Backend Image
+      shell: pwsh
+      run: |
+        docker push usaidafzal/purrfectmatch-backend:latest
+
+    - name: Push Frontend Image
+      shell: pwsh
+      run: |
+        docker push usaidafzal/purrfectmatch-frontend:latest
+
+    - name: Deploy to Minikube
+      shell: pwsh
+      run: |
+        kubectl apply -f deployment-backend.yaml
+        kubectl apply -f service-backend.yaml
+        kubectl apply -f deployment-frontend.yaml
+        kubectl apply -f service-frontend.yaml
