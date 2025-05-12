@@ -49,7 +49,7 @@ jobs:
     - name: Deploy to Minikube
       shell: pwsh
       run: |
-        kubectl apply -f deployment-backend.yaml
-        kubectl apply -f service-backend.yaml
-        kubectl apply -f deployment-frontend.yaml
-        kubectl apply -f service-frontend.yaml
+        kubectl apply -f k8s/deployment-backend.yaml
+        kubectl apply -f k8s/service-backend.yaml
+        kubectl apply -f k8s/deployment-frontend.yaml
+        kubectl apply -f k8s/service-frontend.yaml
