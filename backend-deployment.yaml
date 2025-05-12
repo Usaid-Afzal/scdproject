@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: purrfectmatch-backend
-        image: usaidafzal/purrfectmatch-backend:local
+        image: usaidafzal/purrfectmatch-backend:latest
         ports:
         - containerPort: 5000
         env:
