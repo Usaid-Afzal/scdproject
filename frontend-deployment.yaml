@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: purrfectmatch-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: purrfectmatch-frontend
+  template:
+    metadata:
+      labels:
+        app: purrfectmatch-frontend
+    spec:
+      containers:
+      - name: purrfectmatch-frontend
+        image: usaidafzal/purrfectmatch-frontend:local
+        ports:
+        - containerPort: 80

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: purrfectmatch-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: purrfectmatch-backend
+  template:
+    metadata:
+      labels:
+        app: purrfectmatch-backend
+    spec:
+      containers:
+      - name: purrfectmatch-backend
+        image: usaidafzal/purrfectmatch-backend:local
+        ports:
+        - containerPort: 5000
+        env:
+        - name: MONGOURI
+          value: "mongodb+srv://Usaid:usaid@usaidcluster.jjs2w.mongodb.net/"
+        - name: JWT_SECRET
+          value: "abcdegh"
+        - name: GOOGLE_CLIENT_ID
+          value: "483866031895-tuupjfu7nnv8isj4fpbus8pleqhi3a26.apps.googleusercontent.com"
+        - name: NODE_ENV
+          value: "development"
+        - name: PORT
+          value: "5000"
+        - name: JWT_EXPIRATION
+          value: "7d"
+        - name: CLOUDINARY_CLOUD_NAME
+          value: "dxspd4uol"
+        - name: CLOUDINARY_API_KEY
+          value: "963385334736223"
+        - name: CLOUDINARY_API_SECRET
+          value: "0gF2nf2gLNovTdIUCFTLilKKK8"
+        - name: POSTMARK_SERVER_TOKEN
+          value: "951f384c-9d79-4877-873f-f2dbaaaba5df"
+        - name: LOG_LEVEL
+          value: "info"
+        # Add other env vars as needed

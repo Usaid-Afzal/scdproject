@@ -1,5 +1,5 @@
 # Step 1: Build the app
-FROM node:18 AS builder
+FROM node:20 AS builder
 
 WORKDIR /app
 
@@ -9,6 +9,7 @@ RUN npm install
 COPY . .
 RUN npm run build
 
+
 # Step 2: Serve the app with a lightweight web server
 FROM nginx:alpine
 
@@ -16,7 +17,7 @@ FROM nginx:alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Copy custom nginx config (optional)
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
