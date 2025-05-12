@@ -23,7 +23,7 @@ const { initSocket } = require('./src/config/socket');
 app.use(express.json()); // Parse incoming JSON requests
 app.use(
   cors({
-    origin: 'http://localhost:5173', // Allow only frontend origin
+    origin: process.env.FRONTEND_URL, // Allow only frontend origin
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
   })

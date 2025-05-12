@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mern-ingress
+  namespace: purrfectmatch
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: purrfectmatch.local
+      http:
+        paths:
+          # API requests go to backend
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: purrfectmatch-backend-service
+                port:
+                  number: 5000
+          # Everything else to frontend
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: purrfectmatch-frontend-service
+                port:
+                  number: 5173

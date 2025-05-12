@@ -1,19 +1,15 @@
-# Use Node.js base image
-FROM node:18
+# Stage 1: dependencies + build
+FROM node:20-alpine AS base
+WORKDIR /usr/src/app
 
-# Set working directory inside container
-WORKDIR /app
-
-# Copy package.json and package-lock.json first
+# Install only production deps
 COPY package*.json ./
+RUN npm ci --only=production
 
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the backend files
+# Copy app source
 COPY . .
 
-# Expose port (matches PORT in .env)
+# Expose the port your server listens on
 EXPOSE 5000
 
 # Start the server

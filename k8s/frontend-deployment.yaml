@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: purrfectmatch-frontend
+  namespace: purrfectmatch
 spec:
   replicas: 1
   selector:
@@ -13,7 +14,25 @@ spec:
         app: purrfectmatch-frontend
     spec:
       containers:
-      - name: purrfectmatch-frontend
-        image: usaidafzal/purrfectmatch-frontend:latest
-        ports:
-        - containerPort: 80
+        - name: purrfectmatch-frontend
+          image: usaidafzal/purrfectmatch-frontend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5173
+          envFrom:
+            - configMapRef:
+                name: frontend-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: purrfectmatch-frontend-service
+  namespace: purrfectmatch
+spec:
+  selector:
+    app: purrfectmatch-frontend
+  ports:
+    - protocol: TCP
+      port: 5173
+      targetPort: 5173
+  type: ClusterIP

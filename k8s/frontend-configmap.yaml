@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: purrfectmatch
+data:
+  VITE_OPENCAGE_API_KEY: "11a1dff918d646e9a126f4979d9a5e71"
+  VITE_API_URL: ""
